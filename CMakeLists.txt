@@ -18,7 +18,13 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
         GIT_TAG 1.14.2
 )
+FetchContent_Declare(
+        tinyxml2
+        GIT_REPOSITORY https://github.com/leethomason/tinyxml2.git
+        GIT_TAG 11.0.0  # or latest
+)
 FetchContent_MakeAvailable(cpr)
+FetchContent_MakeAvailable(tinyxml2)
 
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/external/imgui)
 
@@ -45,9 +51,24 @@ target_link_libraries(imgui PUBLIC
 )
 
 add_executable(AirportSimulator
-        main.cpp
-        Display.cpp
-        Search.h
+        src/main.cpp
+        src/UI/SearchPanel.cpp
+        src/UI/SearchPanel.h
+        src/UI/MainWindow.cpp
+        src/UI/MainWindow.h
+        src/UI/ResultsPanel.cpp
+        src/UI/ResultsPanel.h
+        src/SearchController.cpp
+        src/SearchController.h
+        src/RegulationService.cpp
+        src/RegulationService.h
+        src/Model/Query.h
+        src/Model/Query.h
+        src/UI/DatePickerPanel.cpp
+        src/UI/DatePickerPanel.h
+        src/CompareController.cpp
+        src/CompareController.h
+        src/CompareController.h
 )
 
 target_link_libraries(AirportSimulator PRIVATE
@@ -56,4 +77,5 @@ target_link_libraries(AirportSimulator PRIVATE
         OpenGL::GL
         nlohmann_json::nlohmann_json
         cpr::cpr
+        tinyxml2
 )

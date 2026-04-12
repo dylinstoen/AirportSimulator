@@ -1,8 +1,0 @@
-//
-// Created by dylin on 4/7/2026.
-//
-
-#ifndef AIRPORTSIMULATOR_SEARCH_H
-#define AIRPORTSIMULATOR_SEARCH_H
-
-#endif //AIRPORTSIMULATOR_SEARCH_H

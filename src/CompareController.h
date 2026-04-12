@@ -1,0 +1,16 @@
+//
+// Created by dylin on 4/12/2026.
+//
+
+#ifndef AIRPORTSIMULATOR_COMPARECONTROLLER_H
+#define AIRPORTSIMULATOR_COMPARECONTROLLER_H
+
+
+
+class CompareController {
+
+};
+
+
+
+#endif //AIRPORTSIMULATOR_COMPARECONTROLLER_H

@@ -3,11 +3,14 @@
 #include "imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 #include <cmath>
-#include "Display.h"
 #include <cstdio>
 #include <iostream>
 
+#include "SearchController.h"
+#include "UI/MainWindow.h"
+
 #include <cpr/cpr.h>
+
 
 // TODO: Create a aircraft controller simulator with each aircraft having a certain desired elevation and a PID Controller that simulates take off.
 static void glfw_error_callback(int error, const char* description)
@@ -19,7 +22,7 @@ int main() {
     glfwSetErrorCallback(glfw_error_callback);
     glfwInit(); // inits glfw window and input system.
     float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor()); // Valid on GLFW 3.3+ only
-    GLFWwindow* window = glfwCreateWindow((int)(1280 * main_scale), (int)(800 * main_scale), "Dear ImGui GLFW+OpenGL3 example", nullptr, nullptr); // creates a glfw window
+    GLFWwindow* window = glfwCreateWindow((int)(1280 * main_scale), (int)(800 * main_scale), "CFR Analyzer", nullptr, nullptr); // creates a glfw window
     if (window == nullptr)
         return 1;
     glfwMakeContextCurrent(window); // creates an opengl context and ties it to the window
@@ -39,17 +42,9 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true); // handles input
     ImGui_ImplOpenGL3_Init("#version 130"); // handles renderingS
     ImVec4 clear_color = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
-    Display display;
 
-    cpr::Response r = cpr::Get(cpr::Url{"https://api.github.com/repos/whoshuu/cpr/contributors"},
-                               cpr::Authentication{"user", "pass", cpr::AuthMode::BASIC},
-                               cpr::Parameters{{"anon", "true"}, {"key", "value"}});
-    std::cout << "Status code: " << r.status_code << '\n';
-    std::cout << "Header:\n";
-    for (const std::pair<const std::basic_string<char>, std::basic_string<char>>& kv : r.header) {
-        std::cout << '\t' << kv.first << ':' << kv.second << '\n';
-    }
-    std::cout << "Text: " << r.text << '\n';
+    SearchController _searchController;
+    MainWindow _mainWindow(_searchController);
 
 
     // draw frames
@@ -66,8 +61,7 @@ int main() {
         ImGui::NewFrame(); // imgui starts a new frame
         // Everything ImGui related should be between here
 
-        Display::DrawDemo(clear_color, io);
-        Display::DrawToolbar();
+        _mainWindow.Draw();
 
         // and here
         ImGui::Render(); // converts ui calls into draw commands
