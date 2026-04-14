@@ -7,12 +7,12 @@
 #include <iostream>
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
+#include <tinyxml2.h>
+
+#include "CompareResponseMotor.h"
 
 std::string RegulationService::ProcessRequest(Query query) {
-    // /api/versioner/v1/versions/title-{title}.json
-    // https://www.ecfr.gov/api/versioner/v1/full/
-    cpr::Response r = cpr::Get(cpr::Url{
-        "https://www.ecfr.gov/api/versioner/v1/versions/title-" + query.title + ".json"},
+    cpr::Response r = cpr::Get(cpr::Url{query.url},
         cpr::Parameters {
             {"chapter", query.chapter},
             {"part", query.part},
@@ -27,7 +27,8 @@ std::string RegulationService::ProcessRequest(Query query) {
     return r.text;
 }
 
-std::vector<std::string> RegulationService::ProcessResponse(std::string response) {
+
+std::vector<std::string> RegulationService::ProcessSearchResponse(std::string response) {
     nlohmann::json j = nlohmann::json::parse(response);
     std::vector<std::string> result;
     std::unordered_set<std::string> seen;
@@ -40,3 +41,14 @@ std::vector<std::string> RegulationService::ProcessResponse(std::string response
     }
     return result;
 }
+
+std::string RegulationService::ProcessCompareResponse(std::string response) {
+    tinyxml2::XMLDocument document;
+    tinyxml2::XMLError err = document.Parse(response.c_str());
+    tinyxml2::XMLElement* root = document.FirstChildElement("DIV8");
+    CompareResponseMotor c;
+    c.Process(root);
+    return "";
+}
+
+

@@ -1,0 +1,13 @@
+//
+// Created by dylin on 4/12/2026.
+//
+
+#ifndef AIRPORTSIMULATOR_SEARCHSTATUS_H
+#define AIRPORTSIMULATOR_SEARCHSTATUS_H
+enum Status {
+    IDLE,
+    LOADING,
+    SUCCESS,
+    Error
+};
+#endif //AIRPORTSIMULATOR_SEARCHSTATUS_H

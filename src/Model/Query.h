@@ -5,7 +5,7 @@
 #ifndef AIRPORTSIMULATOR_QUERY_H
 #define AIRPORTSIMULATOR_QUERY_H
 struct Query {
-    std::string date;
+    std::string url;
     std::string  title;
     std::string  chapter;
     std::string  part;

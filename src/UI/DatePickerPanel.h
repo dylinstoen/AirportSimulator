@@ -6,15 +6,17 @@
 #define AIRPORTSIMULATOR_DATEPICKERPANEL_H
 #include <utility>
 
+#include "SearchPanel.h"
 #include "../SearchController.h"
-
+#include "../CompareController.h"
 
 class DatePickerPanel {
 public:
-    explicit DatePickerPanel(SearchController& searchController) : _controller(searchController) {};
-    void Draw() const;
+    explicit DatePickerPanel(SearchController& searchController) : _searchController(searchController) {};
+    void Draw();
 private:
-    SearchController& _controller;
+    CompareController _compareController;
+    SearchController& _searchController;
 };
 
 

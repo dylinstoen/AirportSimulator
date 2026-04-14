@@ -69,6 +69,17 @@ add_executable(AirportSimulator
         src/CompareController.cpp
         src/CompareController.h
         src/CompareController.h
+        src/Model/Status.h
+        src/Model/Status.h
+        src/CompareResponseMotor.cpp
+        src/CompareResponseMotor.h
+        src/CompareResponseMotor.h
+        src/Utilities/MarkerDetector.h
+        src/Utilities/MarkerDetector.h
+        src/Utilities/MarkerDetector.cpp
+        src/Utilities/MarkerDetector.cpp
+        src/Model/MarkerKind.h
+        src/Model/MarkerKind.h
 )
 
 target_link_libraries(AirportSimulator PRIVATE

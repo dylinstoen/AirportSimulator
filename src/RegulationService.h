@@ -12,7 +12,8 @@
 class RegulationService {
 public:
     static std::string ProcessRequest(Query query);
-    static std::vector<std::string> ProcessResponse(std::string response);
+    static std::vector<std::string> ProcessSearchResponse(std::string response);
+    static std::string ProcessCompareResponse(std::string response);
 };
 
 

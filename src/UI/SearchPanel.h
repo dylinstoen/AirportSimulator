@@ -9,6 +9,7 @@
 class SearchPanel {
 public:
     explicit SearchPanel(SearchController& searchController) : _controller(searchController) {};
+    Query GetQuery() { return _query; }
     void Draw();
 private:
     SearchController& _controller;

@@ -11,7 +11,7 @@
 
 class MainWindow {
 public:
-    MainWindow(SearchController& searchController) : _searchPanel(searchController), _datePickerPanel(searchController) {}
+    MainWindow(SearchController& searchController) : _searchPanel(searchController), _datePickerPanel(searchController) {};
     void Draw();
 private:
     SearchPanel _searchPanel;

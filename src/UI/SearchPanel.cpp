@@ -55,13 +55,14 @@ void SearchPanel::Draw() {
     ImGui::SameLine();
 
     if (ImGui::Button("Search")) {
-        if (_controller.GetStatus() != IDLE)
+        if (_controller.GetStatus() == LOADING)
             return;
         Query query;
         query.title = _title;
         query.chapter = _chapter;
         query.part = _part;
         query.section = _section;
+        query.url = "https://www.ecfr.gov/api/versioner/v1/versions/title-" + query.title + ".json";
         _controller.SubmitSearch(query);
     }
 }

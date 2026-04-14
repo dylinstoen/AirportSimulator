@@ -10,8 +10,8 @@
 #include "imgui.h"
 int selectedIndexFirst = 0;
 int selectedIndexSecond = 0;
-void DatePickerPanel::Draw() const {
-    if (_controller.GetResults().empty()) {
+void DatePickerPanel::Draw() {
+    if (_searchController.GetResults().empty() || _searchController.GetStatus() != Status::SUCCESS) {
         return;
     }
     float buttonWidth = ImGui::CalcTextSize("Compare").x + ImGui::GetStyle().FramePadding.x * 2.0f;
@@ -30,10 +30,10 @@ void DatePickerPanel::Draw() const {
     ImGui::Text("First Date");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(comboWidth);
-    if (ImGui::BeginCombo("##DatePickerFirst", _controller.GetResults().at(selectedIndexFirst).c_str())) {
-        for (int i = 0; i < _controller.GetResults().size(); i++) {
+    if (ImGui::BeginCombo("##DatePickerFirst", _searchController.GetResults().at(selectedIndexFirst).c_str())) {
+        for (int i = 0; i < _searchController.GetResults().size(); i++) {
             bool isSelected = selectedIndexFirst == i;
-            if (ImGui::Selectable(_controller.GetResults().at(i).c_str(), isSelected)) {
+            if (ImGui::Selectable(_searchController.GetResults().at(i).c_str(), isSelected)) {
                 selectedIndexFirst = i;
             }
             if (isSelected) {
@@ -46,10 +46,10 @@ void DatePickerPanel::Draw() const {
     ImGui::Text("Second Date");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(comboWidth);
-    if (ImGui::BeginCombo("##DatePickerSecond", _controller.GetResults().at(selectedIndexSecond).c_str())) {
-        for (int i = 0; i < _controller.GetResults().size(); i++) {
+    if (ImGui::BeginCombo("##DatePickerSecond", _searchController.GetResults().at(selectedIndexSecond).c_str())) {
+        for (int i = 0; i < _searchController.GetResults().size(); i++) {
             bool isSelected = selectedIndexSecond == i;
-            if (ImGui::Selectable(_controller.GetResults().at(i).c_str(), isSelected)) {
+            if (ImGui::Selectable(_searchController.GetResults().at(i).c_str(), isSelected)) {
                 selectedIndexSecond = i;
             }
             if (isSelected) {
@@ -60,6 +60,13 @@ void DatePickerPanel::Draw() const {
     }
     ImGui::SameLine();
     if (ImGui::Button("Compare")) {
-        // handle click
+        if (_searchController.GetStatus() != Status::SUCCESS) {
+            return;
+        }
+        std::string firstDate = _searchController.GetResults().at(selectedIndexFirst);
+        std::string secondDate = _searchController.GetResults().at(selectedIndexSecond);
+        Query query = _searchController.GetQuery();
+        _compareController.SubmitCompare(query, firstDate,
+            secondDate);
     }
 }
