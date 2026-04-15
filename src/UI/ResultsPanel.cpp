@@ -12,13 +12,14 @@
 void DrawNodeRecursion(const ResponseNode& node, int depth) {
     std::string line = node.marker + " " + node.text;
     ImGui::TextWrapped("%s", line.c_str());
-    if (!node.children.empty()) {
-        ImGui::Indent(20.0f);
-        for (const auto& child : node.children) {
-            DrawNodeRecursion(child, depth + 1);
-        }
-        ImGui::Unindent(20.0f);
+    if (node.children.empty()) {
+        return;
     }
+    ImGui::Indent(20.0f);
+    for (const auto& child : node.children) {
+        DrawNodeRecursion(child, depth + 1);
+    }
+    ImGui::Unindent(20.0f);
 }
 void ResultsPanel::Draw() {
 
