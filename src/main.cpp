@@ -42,10 +42,9 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true); // handles input
     ImGui_ImplOpenGL3_Init("#version 130"); // handles renderingS
     ImVec4 clear_color = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
-
+    CompareController _compareController;
     SearchController _searchController;
-    MainWindow _mainWindow(_searchController);
-
+    MainWindow _mainWindow(_searchController, _compareController);
 
     // draw frames
     while (!glfwWindowShouldClose(window)) { // runs until window is closed

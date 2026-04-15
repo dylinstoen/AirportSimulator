@@ -10,6 +10,7 @@
 #include <tinyxml2.h>
 
 #include "CompareResponseMotor.h"
+#include "Model/Response.h"
 
 std::string RegulationService::ProcessRequest(Query query) {
     cpr::Response r = cpr::Get(cpr::Url{query.url},
@@ -42,13 +43,22 @@ std::vector<std::string> RegulationService::ProcessSearchResponse(std::string re
     return result;
 }
 
-std::string RegulationService::ProcessCompareResponse(std::string response) {
+Response RegulationService::ProcessCompareResponse(std::string response) {
     tinyxml2::XMLDocument document;
     tinyxml2::XMLError err = document.Parse(response.c_str());
+    if (err != tinyxml2::XML_SUCCESS) {
+        throw std::runtime_error(document.ErrorStr() ? document.ErrorStr() : "XML parse failed");
+    }
     tinyxml2::XMLElement* root = document.FirstChildElement("DIV8");
-    CompareResponseMotor c;
-    c.Process(root);
-    return "";
+    if (!root) {
+        throw std::runtime_error("DIV8 root not found");
+    }
+    Response result;
+    if (tinyxml2::XMLElement* header = root->FirstChildElement("HEAD")) {
+        result.header = header->GetText();
+    }
+    result.body = CompareResponseMotor::Process(root);
+    return result;
 }
 
 

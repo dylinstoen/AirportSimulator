@@ -4,19 +4,24 @@
 
 #ifndef AIRPORTSIMULATOR_COMPARECONTROLLER_H
 #define AIRPORTSIMULATOR_COMPARECONTROLLER_H
+#include <memory>
 #include <string>
 #include <vector>
 #include "Model/Status.h"
-
 #include "Model/Query.h"
+#include "Model/Response.h"
 
 
 class CompareController {
 public:
-    void SubmitCompare(Query query, std::string firstDate, std::string secondDate);
+    void SubmitCompare(Query query, const std::string& firstDate, const std::string& secondDate);
     [[nodiscard]] std::string& GetError() { return _error; }
+    [[nodiscard]] Status GetStatus() const { return _status; }
+    [[nodiscard]] Response GetResponseFirstDate() { return resultFirstDate; }
+    [[nodiscard]] Response GetResponseSecondDate() { return resultSecondDate; }
 private:
-    std::string results;
+    Response resultFirstDate;
+    Response resultSecondDate;
     Status _status = IDLE;
     std::string _error;
 };

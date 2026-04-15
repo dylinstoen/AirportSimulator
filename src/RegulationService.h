@@ -9,11 +9,13 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
+#include "Model/Response.h"
+
 class RegulationService {
 public:
     static std::string ProcessRequest(Query query);
     static std::vector<std::string> ProcessSearchResponse(std::string response);
-    static std::string ProcessCompareResponse(std::string response);
+    static Response ProcessCompareResponse(std::string response);
 };
 
 

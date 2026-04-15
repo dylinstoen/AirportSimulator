@@ -11,12 +11,12 @@
 
 class MainWindow {
 public:
-    MainWindow(SearchController& searchController) : _searchPanel(searchController), _datePickerPanel(searchController) {};
+    MainWindow(SearchController& searchController, CompareController& compareController) : _searchPanel(searchController), _datePickerPanel(searchController, compareController), _resultsPanel(compareController) {};
     void Draw();
 private:
     SearchPanel _searchPanel;
-    ResultsPanel _resultsPanel;
     DatePickerPanel _datePickerPanel;
+    ResultsPanel _resultsPanel;
 };
 
 

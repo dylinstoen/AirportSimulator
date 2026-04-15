@@ -4,13 +4,13 @@
 
 #ifndef AIRPORTSIMULATOR_COMPARERESPONSEMOTOR_H
 #define AIRPORTSIMULATOR_COMPARERESPONSEMOTOR_H
+#include <memory>
 #include <tinyxml2.h>
-
+#include "Model/Response.h"
 
 class CompareResponseMotor {
 public:
-    void Process(tinyxml2::XMLElement* root);
-
+    static ResponseNode Process(tinyxml2::XMLElement* root);
 };
 
 

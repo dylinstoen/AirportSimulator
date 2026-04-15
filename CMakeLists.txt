@@ -80,6 +80,11 @@ add_executable(AirportSimulator
         src/Utilities/MarkerDetector.cpp
         src/Model/MarkerKind.h
         src/Model/MarkerKind.h
+        src/Utilities/MarkerCycle.cpp
+        src/Utilities/MarkerCycle.h
+        src/Utilities/MarkerCycle.h
+        src/Model/Response.h
+        src/Model/Response.h
 )
 
 target_link_libraries(AirportSimulator PRIVATE

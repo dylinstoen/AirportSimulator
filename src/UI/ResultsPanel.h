@@ -4,12 +4,15 @@
 
 #ifndef AIRPORTSIMULATOR_RESULTSPANEL_H
 #define AIRPORTSIMULATOR_RESULTSPANEL_H
-
+#include "../CompareController.h"
 
 
 class ResultsPanel {
 public:
+    explicit ResultsPanel(CompareController& compareController) : _controller(compareController) {};
     void Draw();
+private:
+    CompareController& _controller;
 };
 
 

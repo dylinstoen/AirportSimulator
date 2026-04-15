@@ -8,6 +8,6 @@
 #include "../Model/MarkerKind.h"
 class MarkerDetector {
 public:
-    MarkerKind ClassifyMarker(const std::string& body);
+    static MarkerKind ClassifyMarker(const std::string& body);
 };
 #endif //AIRPORTSIMULATOR_MARKERDETECTOR_H

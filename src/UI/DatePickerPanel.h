@@ -12,10 +12,10 @@
 
 class DatePickerPanel {
 public:
-    explicit DatePickerPanel(SearchController& searchController) : _searchController(searchController) {};
+    explicit DatePickerPanel(SearchController& searchController, CompareController& compareController) : _searchController(searchController), _compareController(compareController) {};
     void Draw();
 private:
-    CompareController _compareController;
+    CompareController& _compareController;
     SearchController& _searchController;
 };
 
