@@ -9,13 +9,13 @@
 #include "imgui.h"
 #include "../Model/Response.h"
 
-void DrawNode(const ResponseNode& node, int depth) {
+void DrawNodeRecursion(const ResponseNode& node, int depth) {
     std::string line = node.marker + " " + node.text;
     ImGui::TextWrapped("%s", line.c_str());
     if (!node.children.empty()) {
         ImGui::Indent(20.0f);
         for (const auto& child : node.children) {
-            DrawNode(child, depth + 1);
+            DrawNodeRecursion(child, depth + 1);
         }
         ImGui::Unindent(20.0f);
     }
@@ -31,6 +31,6 @@ void ResultsPanel::Draw() {
     }
     ImGui::BeginChild("Content", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_None);
     ImGui::Text("%s", _controller.GetResponseFirstDate().header.c_str());
-    DrawNode(_controller.GetResponseFirstDate().body, 0);
+    DrawNodeRecursion(_controller.GetResponseFirstDate().body, 0);
     ImGui::EndChild();
 }
