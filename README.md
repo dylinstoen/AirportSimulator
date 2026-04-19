@@ -1,4 +1,7 @@
 # Welcome to the docs for the CFR analyzer tool
+[Watch Demo](https://www.youtube.com/watch?v=DGP1OdC5e-0)
+## What does it do?
+Compare guideline changes for the CFR section of your choice. Enter in the section, select the dates you want to compare, and hit compare to easily see the differences.
 
 ## Lettering guidelines
 According to CFR title 1, chapter 1, subchapter E, part 21, subpart A (21.11) section h the organization of paragraphs are designated as follows
