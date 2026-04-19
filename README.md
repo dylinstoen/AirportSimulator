@@ -3,7 +3,9 @@
 ## What does it do?
 Compare guideline changes for the CFR section of your choice. Enter in the section, select the dates you want to compare, and hit compare to easily see the differences.
 
-## Lettering guidelines
+## Important Note
+My XML parsing algorithm is dependent on this system as when pulling from the CFR API everything is dumped under one main child element and since some agencies may not strictly adhere to the guidelines that means that sometimes the formatting may not work as expected.
+
 According to CFR title 1, chapter 1, subchapter E, part 21, subpart A (21.11) section h the organization of paragraphs are designated as follows
 level 1 (a), (b), (c), etc.
 
@@ -18,5 +20,3 @@ level 5 (1), (2), (3), etc.
 level 6 (i), (ii), (iii), etc.
 
 [source](https://www.ecfr.gov/current/title-1/chapter-I/subchapter-E/part-21/subpart-A/subject-group-ECFRe8a0e8af6bd5c46/section-21.11)
-
-My XML parsing algorithm is dependent on this system as when pulling from the CFR API everything is dumped under one main child element and since some agencies may not strictly adhere to the guidelines that means that sometimes the formatting may not work as expected.
