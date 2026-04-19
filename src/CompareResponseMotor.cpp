@@ -45,17 +45,8 @@ std::optional<ParsedMarker> TryParseLeadingMarker(const std::string& text) {
     result.remainder = match[3];
     return result;
 }
-
-ResponseNode* AppendChild(std::vector<std::unique_ptr<ResponseNode>>& list, std::string marker, MarkerKind kind, std::string text) {
-    auto node = std::make_unique<ResponseNode>();
-    node->marker = std::move(marker);
-    node->kind = kind;
-    node->text = std::move(text);
-    ResponseNode* raw = node.get();
-    list.push_back(std::move(node));
-    return raw;
-}
-
+// TODO: If its at a roman numeral and current levels sibiling dosn't expect c or d then its a lower alpha
+// TODO:
 ResponseNode CompareResponseMotor::Process(tinyxml2::XMLElement* root) {
     ResponseNode rootNode;
     rootNode.kind = MarkerKind::None;
@@ -74,7 +65,13 @@ ResponseNode CompareResponseMotor::Process(tinyxml2::XMLElement* root) {
         if (!parsed) {
             continue;
         }
-        MarkerKind incomingKind = MarkerDetector::ClassifyMarker(parsed.value().body);
+        MarkerKind incomingKind;
+        if (!stack.empty() && !stack.back()->children.empty()) {
+            incomingKind = MarkerDetector::ClassifyMarker(parsed.value().body, stack.back()->children.back().marker);
+        } else {
+            incomingKind = MarkerDetector::ClassifyMarker(parsed.value().body);
+        }
+
         if (incomingKind == MarkerKind::None) {
             continue;
         }

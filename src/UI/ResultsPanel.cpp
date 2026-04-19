@@ -21,8 +21,7 @@ void DrawNodeRecursion(const ResponseNode& node, int depth) {
     }
     ImGui::Unindent(20.0f);
 }
-void ResultsPanel::Draw() {
-
+void ResultsPanel::Draw() const {
     if (_controller.GetStatus() == Status::Error) {
         std::cout << _controller.GetError() << std::endl;
         return;
@@ -31,7 +30,35 @@ void ResultsPanel::Draw() {
         return;
     }
     ImGui::BeginChild("Content", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_None);
-    ImGui::Text("%s", _controller.GetResponseFirstDate().header.c_str());
-    DrawNodeRecursion(_controller.GetResponseFirstDate().body, 0);
+    if (ImGui::BeginTabBar("ResultsTab")) {
+        if (ImGui::BeginTabItem("First")) {
+            const auto& response = _controller.GetResponseFirstDate();
+
+            ImGui::Text("%s", response.header.c_str());
+            ImGui::Separator();
+
+            DrawNodeRecursion(response.body, 0);
+
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Second")) {
+            const auto& response = _controller.GetResponseSecondDate();
+            ImGui::Text("%s", response.header.c_str());
+            ImGui::Separator();
+            DrawNodeRecursion(response.body, 0);
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Diff")) {
+            const auto& response = _controller.GetDiffResponse(); // you implement this
+
+            ImGui::Text("%s", response.header.c_str());
+            ImGui::Separator();
+
+            DrawNodeRecursion(response.body, 0);
+
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+    }
     ImGui::EndChild();
 }

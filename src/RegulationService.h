@@ -16,6 +16,8 @@ public:
     static std::string ProcessRequest(Query query);
     static std::vector<std::string> ProcessSearchResponse(std::string response);
     static Response ProcessCompareResponse(std::string response);
+
+    static Response ProcessDiffResponse(Response& response, Response& result_second_date);
 };
 
 

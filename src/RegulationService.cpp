@@ -61,4 +61,10 @@ Response RegulationService::ProcessCompareResponse(std::string response) {
     return result;
 }
 
+Response RegulationService::ProcessDiffResponse(Response& firstResponse, Response& secondResponse) {
+    Response result;
+
+    return result;
+}
+
 

@@ -10,7 +10,7 @@
 class ResultsPanel {
 public:
     explicit ResultsPanel(CompareController& compareController) : _controller(compareController) {};
-    void Draw();
+    void Draw() const;
 private:
     CompareController& _controller;
 };

@@ -11,8 +11,6 @@
 
 #include <cpr/cpr.h>
 
-
-// TODO: Create a aircraft controller simulator with each aircraft having a certain desired elevation and a PID Controller that simulates take off.
 static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);

@@ -60,7 +60,7 @@ void DatePickerPanel::Draw() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Compare")) {
-        if (_searchController.GetStatus() != Status::SUCCESS) {
+        if (_compareController.GetStatus() == Status::LOADING) {
             return;
         }
         std::string firstDate = _searchController.GetResults().at(selectedIndexFirst);

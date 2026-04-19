@@ -19,9 +19,11 @@ public:
     [[nodiscard]] Status GetStatus() const { return _status; }
     [[nodiscard]] Response GetResponseFirstDate() { return resultFirstDate; }
     [[nodiscard]] Response GetResponseSecondDate() { return resultSecondDate; }
+    [[nodiscard]] Response GetDiffResponse() { return resultDifferenceResponse; }
 private:
     Response resultFirstDate;
     Response resultSecondDate;
+    Response resultDifferenceResponse;
     Status _status = IDLE;
     std::string _error;
 };
