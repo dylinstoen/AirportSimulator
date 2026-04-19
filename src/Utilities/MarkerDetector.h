@@ -4,11 +4,15 @@
 
 #ifndef AIRPORTSIMULATOR_MARKERDETECTOR_H
 #define AIRPORTSIMULATOR_MARKERDETECTOR_H
+#include <optional>
 #include <string>
+#include <vector>
+
 #include "../Model/MarkerKind.h"
+#include "../Model/MarkerCandidate.h"
 class MarkerDetector {
 public:
-    static MarkerKind ClassifyMarker(const std::string& body, const std::string& sibilingBody);
-    static MarkerKind ClassifyMarker(const std::string& body);
+    static std::vector<MarkerCandidate> GetCandidates(const std::string& body);
+    static std::optional<int> GetMarkerValue(const std::string& marker, MarkerKind kind);
 };
 #endif //AIRPORTSIMULATOR_MARKERDETECTOR_H

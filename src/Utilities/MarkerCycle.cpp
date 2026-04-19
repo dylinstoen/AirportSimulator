@@ -6,6 +6,7 @@
 
 const std::vector<MarkerKind> &MarkerCycle::DefaultMarkerCycle() {
     static const std::vector<MarkerKind> cycle = {
+        MarkerKind::None,
         MarkerKind::LowerAlpha,
         MarkerKind::Number,
         MarkerKind::LowerRoman,

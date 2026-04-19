@@ -4,7 +4,9 @@
 #include "MarkerDetector.h"
 
 #include <iostream>
+#include <optional>
 #include <ostream>
+#include <vector>
 
 int RomanCharValue(char c) {
     switch (std::tolower(static_cast<unsigned char>(c))) {
@@ -83,27 +85,120 @@ bool IsAllUpperRoman(const std::string& s) {
     }
     return true;
 }
-// TODO: Does this have a sibiling or will this be a first child?
-// TODO: Does this MarkerKind make sense for the sibiling?
-MarkerKind MarkerDetector::ClassifyMarker(const std::string& body, const std::string& sibilingBody) {
-    if (IsAllDigits(body)) return MarkerKind::Number;
-    std::cout << sibilingBody << std::endl;
-    if (IsAllLowerRoman(body) && RomanToInt(body) == RomanToInt(sibilingBody) + 1) {
-        return MarkerKind::LowerRoman;
+
+bool IsValidRomanNumeral(const std::string& s) {
+    if (s.empty()) return false;
+
+    for (char c : s) {
+        if (!IsRomanChar(c)) return false;
     }
 
-    if (IsAllUpperRoman(body)) return MarkerKind::UpperRoman;
-    if (IsAllLowerAlpha(body)) return MarkerKind::LowerAlpha;
-    if (IsAllUpperAlpha(body)) return MarkerKind::UpperAlpha;
-    return MarkerKind::None;
-}
-MarkerKind MarkerDetector::ClassifyMarker(const std::string& body) {
-    if (IsAllDigits(body)) return MarkerKind::Number;
-    if (IsAllLowerRoman(body) && RomanToInt(body) == 1) {
-        return MarkerKind::LowerRoman;
+    int repeatCount = 1;
+    char prev = 0;
+    int total = 0;
+    int lastValue = 0;
+
+    for (int i = static_cast<int>(s.size()) - 1; i >= 0; --i) {
+        char c = static_cast<char>(std::tolower(static_cast<unsigned char>(s[i])));
+        int value = RomanCharValue(c);
+        if (value == 0) return false;
+
+        if (c == prev) {
+            ++repeatCount;
+
+            if (c == 'v' || c == 'l' || c == 'd') {
+                return false;
+            }
+            if (repeatCount > 3) {
+                return false;
+            }
+        } else {
+            repeatCount = 1;
+            prev = c;
+        }
+
+        if (value < lastValue) {
+            char next = static_cast<char>(std::tolower(static_cast<unsigned char>(s[i + 1])));
+            bool validSubtract =
+                (c == 'i' && (next == 'v' || next == 'x')) ||
+                (c == 'x' && (next == 'l' || next == 'c')) ||
+                (c == 'c' && (next == 'd' || next == 'm'));
+
+            if (!validSubtract) {
+                return false;
+            }
+            total -= value;
+        } else {
+            total += value;
+            lastValue = value;
+        }
     }
-    if (IsAllUpperRoman(body)) return MarkerKind::UpperRoman;
-    if (IsAllLowerAlpha(body)) return MarkerKind::LowerAlpha;
-    if (IsAllUpperAlpha(body)) return MarkerKind::UpperAlpha;
-    return MarkerKind::None;
+
+    return total > 0;
+}
+std::optional<int> MarkerDetector::GetMarkerValue(const std::string& marker, MarkerKind kind) {
+    switch (kind) {
+        case MarkerKind::Number:
+            if (IsAllDigits(marker)) return std::stoi(marker);
+            break;
+
+        case MarkerKind::LowerAlpha:
+            if (marker.size() == 1 && std::islower(static_cast<unsigned char>(marker[0]))) {
+                return (marker[0] - 'a') + 1;
+            }
+            break;
+
+        case MarkerKind::UpperAlpha:
+            if (marker.size() == 1 && std::isupper(static_cast<unsigned char>(marker[0]))) {
+                return (marker[0] - 'A') + 1;
+            }
+            break;
+
+        case MarkerKind::LowerRoman:
+            if (IsAllLowerRoman(marker) && IsValidRomanNumeral(marker)) {
+                return RomanToInt(marker);
+            }
+            break;
+
+        case MarkerKind::UpperRoman:
+            if (IsAllUpperRoman(marker) && IsValidRomanNumeral(marker)) {
+                return RomanToInt(marker);
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return std::nullopt;
+}
+std::vector<MarkerCandidate> MarkerDetector::GetCandidates(const std::string& body) {
+    std::vector<MarkerCandidate> result;
+
+    if (IsAllDigits(body)) {
+        result.push_back({ MarkerKind::Number, std::stoi(body) });
+    }
+
+    if (IsAllLowerAlpha(body)) {
+        // for now only support single-char alpha
+        if (body.size() == 1) {
+            result.push_back({ MarkerKind::LowerAlpha, (body[0] - 'a') + 1 });
+        }
+    }
+
+    if (IsAllUpperAlpha(body)) {
+        if (body.size() == 1) {
+            result.push_back({ MarkerKind::UpperAlpha, (body[0] - 'A') + 1 });
+        }
+    }
+
+    if (IsAllLowerRoman(body) && IsValidRomanNumeral(body)) {
+        result.push_back({ MarkerKind::LowerRoman, RomanToInt(body) });
+    }
+
+    if (IsAllUpperRoman(body) && IsValidRomanNumeral(body)) {
+        result.push_back({ MarkerKind::UpperRoman, RomanToInt(body) });
+    }
+
+    return result;
 }

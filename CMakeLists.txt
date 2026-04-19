@@ -85,6 +85,8 @@ add_executable(AirportSimulator
         src/Utilities/MarkerCycle.h
         src/Model/Response.h
         src/Model/Response.h
+        src/Model/MarkerCandidate.h
+        src/Model/MarkerCandidate.h
 )
 
 target_link_libraries(AirportSimulator PRIVATE

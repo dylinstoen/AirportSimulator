@@ -21,6 +21,60 @@ void DrawNodeRecursion(const ResponseNode& node, int depth) {
     }
     ImGui::Unindent(20.0f);
 }
+void DrawDifNodeRecursion(const ResponseDifNode& node, int depth) {
+    ImVec4 color;
+    bool useColor = true;
+    const char* prefix = "";
+    switch (node.kind) {
+        case ADDED:
+            prefix = "+ ";
+            color = ImVec4(0.2f, 0.9f, 0.2f, 1.0f); // green
+            break;
+        case REMOVED:
+            prefix = "- ";
+            color = ImVec4(0.9f, 0.2f, 0.2f, 1.0f); // red
+            break;
+        case CHANGED:
+            prefix = "~ ";
+            color = ImVec4(0.9f, 0.8f, 0.2f, 1.0f); // yellow
+            break;
+        case SAME:
+            color = ImVec4(0.7f, 0.7f, 0.7f, 1.0f); // grey
+        default:
+            useColor = false;
+            break;
+    }
+
+    if (useColor) {
+        ImGui::PushStyleColor(ImGuiCol_Text, color);
+    }
+    std::string line = "";
+    if (depth != 0) {
+        line = std::string(prefix) + node.marker + " " + node.text;
+    }
+
+    if (node.kind == SAME && !node.children.empty() && depth != 0) {
+        if (!ImGui::TreeNode((node.marker + " " + node.text).c_str())) {
+            return;
+        }
+    } else {
+        ImGui::TextWrapped("%s", line.c_str());
+    }
+
+    if (useColor) {
+        ImGui::PopStyleColor();
+    }
+    if (!node.children.empty()) {
+        ImGui::Indent(20.0f);
+        for (const auto& child : node.children) {
+            DrawDifNodeRecursion(child, depth + 1);
+        }
+        ImGui::Unindent(20.0f);
+    }
+    if (node.kind == SAME && !node.children.empty() && depth != 0) {
+        ImGui::TreePop();
+    }
+}
 void ResultsPanel::Draw() const {
     if (_controller.GetStatus() == Status::Error) {
         std::cout << _controller.GetError() << std::endl;
@@ -54,7 +108,7 @@ void ResultsPanel::Draw() const {
             ImGui::Text("%s", response.header.c_str());
             ImGui::Separator();
 
-            DrawNodeRecursion(response.body, 0);
+            DrawDifNodeRecursion(response.body, 0);
 
             ImGui::EndTabItem();
         }
