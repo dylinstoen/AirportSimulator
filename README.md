@@ -1,5 +1,7 @@
 # Welcome to the docs for the CFR analyzer tool
-[Watch Demo](https://www.youtube.com/watch?v=DGP1OdC5e-0)
+https://github.com/user-attachments/assets/7a17d3d6-8d4f-45de-8f19-202015dba035
+
+
 ## What does it do?
 Compare guideline changes for the CFR section of your choice. Enter in the section, select the dates you want to compare, and hit compare to easily see the differences.
 
